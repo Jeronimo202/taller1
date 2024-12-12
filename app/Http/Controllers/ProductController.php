@@ -3,14 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
-class ProductController extends Controller
+use App\Models\Author;
+class AuthorController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
+        $authors = Author::all();
+        //eloquent
+        return view('authors.index',compact('authors'));
         //
     }
 
@@ -27,7 +30,13 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $producto = new Author();
+        $producto->name = $request->name;
+        $producto->nationality= $request->nationality;
+        $producto->birth_date= $request->birth_date;
+        $producto->save();
+        return redirect()->route('producto.index');
     }
 
     /**
@@ -43,7 +52,8 @@ class ProductController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $producto= author::find($id);
+        return view('producto.edit', compact('producto'));
     }
 
     /**
@@ -59,6 +69,12 @@ class ProductController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $producto = new Author();
+        $producto = Author::find($id);
+
+        if ($producto) {
+            $producto->delete();
+            return redirect()->route('authors.index');
+        }
     }
 }
