@@ -33,8 +33,8 @@ class AuthorController extends Controller
 
         $producto = new Author();
         $producto->name = $request->name;
-        $producto->nationality= $request->nationality;
-        $producto->birth_date= $request->birth_date;
+        $producto->price= $request->price;
+        $producto->stock= $request->stock;
         $producto->save();
         return redirect()->route('producto.index');
     }
@@ -52,7 +52,7 @@ class AuthorController extends Controller
      */
     public function edit(string $id)
     {
-        $producto= author::find($id);
+        $producto= producto::find($id);
         return view('producto.edit', compact('producto'));
     }
 
@@ -69,12 +69,12 @@ class AuthorController extends Controller
      */
     public function destroy(string $id)
     {
-        $producto = new Author();
-        $producto = Author::find($id);
+        $producto = new producto();
+        $producto = producto::find($id);
 
         if ($producto) {
             $producto->delete();
-            return redirect()->route('authors.index');
+            return redirect()->route('producto.index');
         }
     }
 }
